@@ -3,9 +3,9 @@ import os
 import numpy as np
 
 ## Collecting the path where gradient method is
-path = os.path.join(os.path.dirname(__file__), '..', 'ex01')
+path = os.path.join(os.path.dirname(__file__), '..', 'ex03')
 sys.path.insert(1, path)
-from vec_gradient import gradient
+from gradient import gradient
 
 
 def fit_(x, y, theta, alpha, max_iter):
@@ -67,8 +67,8 @@ if __name__ == "__main__":
     theta2 = fit_(X2, Y2, theta2, alpha = 0.0005, max_iter=42000)
     theta2
     # Output:
-    array([[41.99..],[0.97..], [0.77..], [-1.20..]])
+    expected_theta = np.array([[41.99..],[0.97..], [0.77..], [-1.20..]])
     # Example 1:
     predict_(X2, theta2)
     # Output:
-    array([[19.5992..], [-2.8003..], [-25.1999..], [-47.5996..]]
+    expected_theta = np.array([[19.5992..], [-2.8003..], [-25.1999..], [-47.5996..]]
