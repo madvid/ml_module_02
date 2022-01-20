@@ -150,8 +150,9 @@ class MyLinearRegression(Metrics):
                 return None
 
             # Testing the shape of the paramters.
-            if (x.shape[1] != 1) or (y.shape[1] != 1) \
-                or (self.thetas.shape[1] != 1) \
+            if (x.shape[1] + 1 != self.thetas.shape) \
+                or (y.shape[1] != 1) \
+                    or (self.thetas.shape[1] != 1) \
                     or (x.shape[0] != y.shape[0]):
                 return None
             grad = self._gradient_(x, y)
@@ -187,9 +188,8 @@ class MyLinearRegression(Metrics):
                     or (not isinstance(self.thetas, np.ndarray)):
                 return None
             # Checking the shape of x, y and self.theta
-            if (x.shape[1] != 1) \
-                or (y.shape[1] != 1) \
-                    or (x.shape[0] != y.shape[0]) \
+            if (y.shape[1] != 1) \
+                or (x.shape[0] != y.shape[0]) \
                     or (self.thetas.shape[0] != x.shape[1] + 1):
                 return None
             # Performing the gradient descent
@@ -278,40 +278,48 @@ if __name__ == "__main__":
     Y = np.array([[23.], [48.], [218.]])
     mylr = MyLinearRegression([[1.], [1.], [1.], [1.], [1]])
     
-    # Example 0:
-    mylr.predict_(X)
+    print("# Example 0:")
+    pred = mylr.predict_(X)
     # Output:
-    #array([[8.], [48.], [323.]])
-    
-    # Example 1:
-    mylr.loss_elem_(X,Y)
+    expected_pred = np.array([[8.], [48.], [323.]])
+    print("my prediction:\n", pred.reshape(1, -1))
+    print("expected prediction:\n", pred.reshape(1, -1))
+
+    print("\n# Example 1:")
+    loss_e = mylr.loss_elem_(X,Y)
     # Output:
-    #array([[225.], [0.], [11025.]])
+    expected_loss_e = np.array([[225.], [0.], [11025.]])
+    print("my loss elem:\n", loss_e.reshape(1, -1))
+    print("expected loss elem:\n", expected_loss_e.reshape(1, -1))
     
-    # Example 2:
-    mylr.loss_(X,Y)
+    print("\n# Example 2:")
+    loss = mylr.loss_(X,Y)
     # Output:
-    #1875.0
+    expected_loss = 1875.0
+    print("my loss:\n", loss.reshape(1, -1))
+    print("expected loss:\n", expected_loss.reshape(1, -1))
     
-    # Example 3:
+    print("\n# Example 3:")
     mylr.alpha = 1.6e-4
     mylr.max_iter = 200000
     mylr.fit_(X, Y)
-    mylr.theta
     # Output:
-    #array([[18.188..], [2.767..], [-0.374..], [1.392..], [0.017..]])
-    
-    # Example 4:
+    expected_thetas = np.array([[18.188], [2.767], [-0.374], [1.392], [0.017]])
+    print("my theta after training:\n".ljuet(30), mylr.thetas.reshape(1, -1))
+    print("expected theta after training:\n".ljuet(30), expected_thetas.reshape(1, -1))
+
+
+    print("\n# Example 4:")
     mylr.predict_(X)
     # Output:
     #array([[23.417..], [47.489..], [218.065...]])
     
-    # Example 5:
+    print("\n# Example 5:")
     mylr.loss_elem_(X,Y)
     # Output:
     #array([[0.174..], [0.260..], [0.004..]])
     
-    # Example 6:
+    print("\n# Example 6:")
     mylr.loss_(X,Y)
     # Output:
     #0.0732
